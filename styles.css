@@ -98,7 +98,7 @@ h1 {
     padding: 3px 10px;
     border-radius: 20px;
     font-size: 11px;
-    font-weight: 800;
+    font-weight: 800;]
     text-transform: uppercase;
     margin-bottom: 10px;
     letter-spacing: 1px;
@@ -115,5 +115,88 @@ h1 {
     .item-card {
         width: calc(33.333% - 15px); /* Chia 3 cột */
         max-width: none;
+    }
+
+}
+/* --- PHẦN THÊM MỚI CHO THANH MENU VÀ CHIA TRANG --- */
+
+/* Làm đẹp thanh điều hướng */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #020C1B;
+    padding: 15px 40px;
+    border-bottom: 2px solid #233554;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+    color: #E6F1FF;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #FFC107; /* Điểm nhấn màu vàng/cam */
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    color: #8892B0;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng khi di chuột và khi đang ở trang đó */
+.nav-btn:hover {
+    color: #FFC107;
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.nav-btn.active {
+    color: #0A192F;
+    background-color: #FFC107;
+}
+
+/* Kỹ thuật ẩn/hiện các trang */
+.page-section {
+    display: none; /* Mặc định giấu hết các trang */
+    animation: fadeIn 0.5s ease;
+}
+
+.page-section.active {
+    display: block; /* Chỉ hiện trang có class 'active' */
+}
+
+/* Hiệu ứng mờ dần khi chuyển trang */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive cho điện thoại: thanh menu nằm dọc */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
