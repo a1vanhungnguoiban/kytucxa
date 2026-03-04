@@ -52,36 +52,37 @@
     <script>
         // 1. CHỨC NĂNG CHUYỂN TRANG
         function chuyenTrang(idTrang, nutDuocBam) {
-            // Giấu tất cả các trang
             let cacTrang = document.getElementsByClassName('page-section');
             for (let i = 0; i < cacTrang.length; i++) {
                 cacTrang[i].classList.remove('active');
             }
-            // Mất màu sáng của tất cả các nút
             let cacNut = document.getElementsByClassName('nav-btn');
             for (let i = 0; i < cacNut.length; i++) {
                 cacNut[i].classList.remove('active');
             }
-            // Hiện trang được chọn và làm sáng nút được bấm
             document.getElementById(idTrang).classList.add('active');
             nutDuocBam.classList.add('active');
         }
 
-        // 2. CHỨC NĂNG HÚT DỮ LIỆU GOOGLE SHEETS (Giữ nguyên)
-        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQaVySxC6YjIMtHy56I89OF9fFLuO9py6JuS1i-_T7i8Wh8M7K3w-rOVvwSrr3yaHeYB9LkyK7N8unK/pub?output=tsv';
+        // 2. CHỨC NĂNG HÚT DỮ LIỆU GOOGLE SHEETS
+        // Ép trình duyệt luôn lấy dữ liệu mới nhất bằng cách gắn thêm thời gian thực vào đuôi link
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQaVySxC6YjIMtHy56I89OF9fFLuO9py6JuS1i-_T7i8Wh8M7K3w-rOVvwSrr3yaHeYB9LkyK7N8unK/pub?output=tsv' + '&t=' + new Date().getTime();
 
         fetch(sheetUrl)
             .then(response => response.text())
             .then(data => {
-                const rows = data.split('\n');
+                // Xử lý triệt để các dấu xuống dòng ẩn
+                const rows = data.split(/\r?\n/); 
                 for (let i = 1; i < rows.length; i++) {
                     if (!rows[i].trim()) continue;
                     
                     const cols = rows[i].split('\t');
-                    const ten = cols[0];
-                    let tier = cols[1] ? cols[1].toUpperCase().replace('TIER ', '').trim() : ''; 
-                    const phanLoai = cols[2];
-                    const moTa = cols[3];
+                    
+                    // Dọn dẹp dấu cách thừa ở đầu/cuối chữ
+                    const ten = cols[0] ? cols[0].trim() : '';
+                    let tier = cols[1] ? cols[1].toUpperCase().replace('TIER', '').trim() : ''; 
+                    const phanLoai = cols[2] ? cols[2].trim() : '';
+                    const moTa = cols[3] ? cols[3].trim() : '';
                     
                     if(ten && tier) {
                         const cardHTML = `
@@ -91,6 +92,7 @@
                                 <div class="item-desc">${moTa}</div>
                             </div>
                         `;
+                        // Tìm đúng hộp Tier để đưa vào (ví dụ: content-S)
                         const targetBox = document.getElementById('content-' + tier);
                         if(targetBox) {
                             targetBox.innerHTML += cardHTML;
@@ -102,3 +104,4 @@
     </script>
 </body>
 </html>
+
