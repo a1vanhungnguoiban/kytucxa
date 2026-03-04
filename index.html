@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bí Kíp Ký Túc Xá - Tier List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>🏆 Bảng Phong Thần Ký Túc Xá 🏆</h1>
+    
+    <div class="tier-list" id="tier-container">
+        <div class="tier-row">
+            <div class="tier-label tier-s">S</div>
+            <div class="tier-content" id="content-S"></div>
+        </div>
+        <div class="tier-row">
+            <div class="tier-label tier-a">A</div>
+            <div class="tier-content" id="content-A"></div>
+        </div>
+        <div class="tier-row">
+            <div class="tier-label tier-b">B</div>
+            <div class="tier-content" id="content-B"></div>
+        </div>
+        <div class="tier-row">
+            <div class="tier-label tier-c">C</div>
+            <div class="tier-content" id="content-C"></div>
+        </div>
+        <div class="tier-row">
+            <div class="tier-label tier-d">D</div>
+            <div class="tier-content" id="content-D"></div>
+        </div>
+    </div>
+
+    <script>
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQaVySxC6YjIMtHy56l890F9fFLuO9py6JuS1i-_T7i8Wh8M7K3w-r0VvwSrr3yaHeYB9LkyK7N8unK/pub?output=tsv';
+
+        fetch(sheetUrl)
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split('\n');
+                for (let i = 1; i < rows.length; i++) {
+                    if (!rows[i].trim()) continue;
+                    
+                    const cols = rows[i].split('\t');
+                    const ten = cols[0];
+                    let tier = cols[1] ? cols[1].toUpperCase().replace('TIER ', '').trim() : ''; 
+                    const phanLoai = cols[2];
+                    const moTa = cols[3];
+                    
+                    if(ten && tier) {
+                        const cardHTML = `
+                            <div class="item-card">
+                                <div class="item-title">${ten}</div>
+                                <div class="item-tag">${phanLoai}</div>
+                                <div class="item-desc">${moTa}</div>
+                            </div>
+                        `;
+                        const targetBox = document.getElementById('content-' + tier);
+                        if(targetBox) {
+                            targetBox.innerHTML += cardHTML;
+                        }
+                    }
+                }
+            })
+            .catch(error => console.error('Lỗi lấy dữ liệu:', error));
+    </script>
+</body>
+</html>
