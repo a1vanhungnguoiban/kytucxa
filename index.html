@@ -3,38 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bí Kíp Ký Túc Xá - Tier List</title>
+    <title>Bí Kíp Ký Túc Xá - Di Sản Cấp 3</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <h1>🏆 Bảng Phong Thần Ký Túc Xá 🏆</h1>
-    
-    <div class="tier-list" id="tier-container">
-        <div class="tier-row">
-            <div class="tier-label tier-s">S</div>
-            <div class="tier-content" id="content-S"></div>
+    <nav class="navbar">
+        <div class="logo">KÝ TÚC XÁ <span>VIP</span></div>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="chuyenTrang('trang-chu', this)">TRANG CHỦ</button>
+            <button class="nav-btn" onclick="chuyenTrang('ho-so', this)">HỒ SƠ THÀNH VIÊN</button>
+            <button class="nav-btn" onclick="chuyenTrang('luat-ngam', this)">LUẬT NGẦM</button>
         </div>
-        <div class="tier-row">
-            <div class="tier-label tier-a">A</div>
-            <div class="tier-content" id="content-A"></div>
-        </div>
-        <div class="tier-row">
-            <div class="tier-label tier-b">B</div>
-            <div class="tier-content" id="content-B"></div>
-        </div>
-        <div class="tier-row">
-            <div class="tier-label tier-c">C</div>
-            <div class="tier-content" id="content-C"></div>
-        </div>
-        <div class="tier-row">
-            <div class="tier-label tier-d">D</div>
-            <div class="tier-content" id="content-D"></div>
+    </nav>
+
+    <div id="trang-chu" class="page-section active">
+        <h1>🏆 Bảng Phong Thần Ký Túc Xá 🏆</h1>
+        <div class="tier-list" id="tier-container">
+            <div class="tier-row">
+                <div class="tier-label tier-s">S</div>
+                <div class="tier-content" id="content-S"></div>
+            </div>
+            <div class="tier-row">
+                <div class="tier-label tier-a">A</div>
+                <div class="tier-content" id="content-A"></div>
+            </div>
+            <div class="tier-row">
+                <div class="tier-label tier-b">B</div>
+                <div class="tier-content" id="content-B"></div>
+            </div>
+            <div class="tier-row">
+                <div class="tier-label tier-c">C</div>
+                <div class="tier-content" id="content-C"></div>
+            </div>
         </div>
     </div>
 
+    <div id="ho-so" class="page-section">
+        <h1>👨‍🎓 Cư Dân Ký Túc Xá 👨‍🎓</h1>
+        <p style="text-align: center; color: #8892B0;">Tính năng Hồ sơ thành viên đang được xây dựng...</p>
+    </div>
+
+    <div id="luat-ngam" class="page-section">
+        <h1>📜 Luật Ngầm Ký Túc Xá 📜</h1>
+        <p style="text-align: center; color: #8892B0;">Tính năng Luật ngầm đang được xây dựng...</p>
+    </div>
+
     <script>
-        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQaVySxC6YjIMtHy56l890F9fFLuO9py6JuS1i-_T7i8Wh8M7K3w-r0VvwSrr3yaHeYB9LkyK7N8unK/pub?output=tsv';
+        // 1. CHỨC NĂNG CHUYỂN TRANG
+        function chuyenTrang(idTrang, nutDuocBam) {
+            // Giấu tất cả các trang
+            let cacTrang = document.getElementsByClassName('page-section');
+            for (let i = 0; i < cacTrang.length; i++) {
+                cacTrang[i].classList.remove('active');
+            }
+            // Mất màu sáng của tất cả các nút
+            let cacNut = document.getElementsByClassName('nav-btn');
+            for (let i = 0; i < cacNut.length; i++) {
+                cacNut[i].classList.remove('active');
+            }
+            // Hiện trang được chọn và làm sáng nút được bấm
+            document.getElementById(idTrang).classList.add('active');
+            nutDuocBam.classList.add('active');
+        }
+
+        // 2. CHỨC NĂNG HÚT DỮ LIỆU GOOGLE SHEETS (Giữ nguyên)
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQaVySxC6YjIMtHy56I89OF9fFLuO9py6JuS1i-_T7i8Wh8M7K3w-rOVvwSrr3yaHeYB9LkyK7N8unK/pub?output=tsv';
 
         fetch(sheetUrl)
             .then(response => response.text())
